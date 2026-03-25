@@ -3,7 +3,9 @@ import TextMode from './components/TextMode';
 import ImageMode from './components/ImageMode';
 import SoundMode from './components/SoundMode';
 import TheoryMode from './components/TheoryMode';
-import { Image as ImageIcon, Music, Type, BookOpen, Sun, Moon } from 'lucide-react';
+import ColorMode from './components/ColorMode';
+import RhythmMode from './components/RhythmMode';
+import { Image as ImageIcon, Music, Type, BookOpen, Sun, Moon, Palette, Activity } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('text');
@@ -21,7 +23,9 @@ export default function App() {
     { id: 'theory', label: '理论探讨', icon: BookOpen },
     { id: 'text', label: '文本 ↔ 数字', icon: Type },
     { id: 'image', label: '图像 ↔ 数字', icon: ImageIcon },
-    { id: 'sound', label: '声音 ↔ 数字', icon: Music },
+    { id: 'color', label: '色彩 ↔ 数字', icon: Palette },
+    { id: 'rhythm', label: '节奏 ↔ 数字', icon: Activity },
+    { id: 'sound', label: '旋律 ↔ 数字', icon: Music },
   ];
 
   return (
@@ -61,8 +65,11 @@ export default function App() {
         {activeTab === 'theory' && <TheoryMode />}
         {activeTab === 'text' && <TextMode />}
         {activeTab === 'image' && <ImageMode />}
+        {activeTab === 'color' && <ColorMode />}
+        {activeTab === 'rhythm' && <RhythmMode />}
         {activeTab === 'sound' && <SoundMode />}
       </main>
     </div>
   )
 }
+
