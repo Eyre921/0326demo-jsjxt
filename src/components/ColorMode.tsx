@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
 
 export default function ColorMode() {
   const [colors, setColors] = useState<string[]>(['#FAF9F5', '#3D3D3A', '#F0EEE6', '#141413']);
@@ -48,18 +49,22 @@ export default function ColorMode() {
       <div className="flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <label className="text-sm font-medium text-muted-foreground">96位色彩调色盘 (4个24位颜色)</label>
-          <button 
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={randomizeColors}
             className="text-xs px-3 py-1.5 bg-secondary text-secondary-foreground hover:bg-accent rounded-md transition-colors shadow-sm"
           >
             随机生成
-          </button>
+          </motion.button>
         </div>
         
         <div className="grid grid-cols-2 gap-4">
           {colors.map((color, i) => (
             <div key={i} className="flex flex-col gap-2">
-              <div 
+              <motion.div 
+                whileHover={{ scale: 1.03, y: -4 }}
+                whileTap={{ scale: 0.97 }}
                 className="h-32 rounded-xl shadow-sm border border-border flex items-end p-3 transition-colors duration-300 relative overflow-hidden group"
                 style={{ backgroundColor: color }}
               >
@@ -72,7 +77,7 @@ export default function ColorMode() {
                 <div className="bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-mono text-foreground shadow-sm group-hover:bg-background transition-colors">
                   {color.toUpperCase()}
                 </div>
-              </div>
+              </motion.div>
             </div>
           ))}
         </div>
@@ -86,10 +91,14 @@ export default function ColorMode() {
           className="h-48 bg-input border border-border rounded-xl p-6 font-mono text-xl text-foreground focus:ring-2 focus:ring-ring focus:outline-none resize-none break-all transition-all shadow-sm"
           placeholder="输入一个巨大的数字..."
         />
-        <div className="text-sm text-muted-foreground border-l-4 border-primary pl-4 mt-4 py-1 space-y-2 bg-card p-4 rounded-r-xl shadow-sm transition-colors duration-300">
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-sm text-muted-foreground border-l-4 border-primary pl-4 mt-4 py-1 space-y-2 bg-card p-4 rounded-r-xl shadow-sm transition-colors duration-300"
+        >
           <p>4 个 RGB 颜色，每个颜色 24 位，组合起来就是一个 <strong>96 位整数</strong>。</p>
           <p>你可以输入一个最大为 <code className="bg-muted px-1.5 py-0.5 rounded text-foreground break-all">79228162514264337593543950335</code> 的数字，它将决定这四个颜色的命运。</p>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { Play, Square } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export default function SoundMode() {
   const [numberStr, setNumberStr] = useState('31415926535897932384626433832795');
@@ -75,7 +76,14 @@ export default function SoundMode() {
           {isPlaying && currentDigitIndex !== null && (
             <div className="absolute top-0 left-0 w-full h-full p-6 pointer-events-none font-mono text-xl break-all">
               <span className="text-transparent">{numberStr.substring(0, currentDigitIndex)}</span>
-              <span className="bg-primary text-primary-foreground rounded-sm px-[1px]">{numberStr[currentDigitIndex]}</span>
+              <motion.span 
+                initial={{ scale: 1.5, color: 'var(--primary)' }}
+                animate={{ scale: 1, color: 'var(--foreground)' }}
+                transition={{ duration: 0.2 }}
+                className="bg-primary text-primary-foreground rounded-sm px-[1px] inline-block"
+              >
+                {numberStr[currentDigitIndex]}
+              </motion.span>
               <span className="text-transparent">{numberStr.substring(currentDigitIndex + 1)}</span>
             </div>
           )}
@@ -83,7 +91,9 @@ export default function SoundMode() {
       </div>
       
       <div className="flex gap-4">
-        <button 
+        <motion.button 
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={isPlaying ? stopSound : playSound}
           className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all shadow-sm ${
             isPlaying 
@@ -92,13 +102,17 @@ export default function SoundMode() {
           }`}
         >
           {isPlaying ? <><Square size={20} /> 停止</> : <><Play size={20} /> 播放声音</>}
-        </button>
+        </motion.button>
       </div>
       
-      <div className="text-sm text-muted-foreground border-l-4 border-primary pl-4 py-1 space-y-2 bg-card p-4 rounded-r-xl shadow-sm transition-colors duration-300">
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-sm text-muted-foreground border-l-4 border-primary pl-4 py-1 space-y-2 bg-card p-4 rounded-r-xl shadow-sm transition-colors duration-300"
+      >
         <p>每个数字 (0-9) 都映射到五声音阶中的特定频率。</p>
         <p>数字不仅仅是一个数学值；它也可以是一段旋律，一种声音的表达。</p>
-      </div>
+      </motion.div>
     </div>
   )
 }

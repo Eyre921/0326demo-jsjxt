@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Play, Square } from 'lucide-react';
+import { motion } from 'motion/react';
 
 const INSTRUMENTS = ['底鼓 (Kick)', '军鼓 (Snare)', '踩镲 (Hi-hat)', '打击乐 (Perc)'];
 
@@ -202,12 +203,14 @@ export default function RhythmMode() {
       <div className="flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <label className="text-sm font-medium text-muted-foreground">32位鼓机 (4轨道 x 8步进)</label>
-          <button 
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={generateRandomBeat}
             className="text-xs px-3 py-1.5 bg-secondary text-secondary-foreground hover:bg-accent rounded-md transition-colors shadow-sm"
           >
             随机节奏
-          </button>
+          </motion.button>
         </div>
         
         <div className="flex flex-col gap-2 bg-card border border-border p-4 rounded-xl shadow-sm">
@@ -216,14 +219,17 @@ export default function RhythmMode() {
               <div className="w-24 text-xs font-mono text-muted-foreground">{INSTRUMENTS[rowIndex]}</div>
               <div className="flex gap-1 flex-1">
                 {row.map((isActive, colIndex) => (
-                  <div 
+                  <motion.div 
                     key={colIndex}
                     onClick={() => toggleCell(rowIndex, colIndex)}
-                    className={`flex-1 aspect-square rounded-sm cursor-pointer transition-all duration-100 border ${
-                      isActive 
-                        ? 'bg-primary border-primary shadow-sm' 
-                        : 'bg-muted border-transparent hover:bg-accent'
-                    } ${currentStep === colIndex ? 'ring-2 ring-ring ring-offset-1 ring-offset-card scale-105' : ''}`}
+                    animate={{ 
+                      scale: currentStep === colIndex ? 1.1 : 1,
+                      backgroundColor: isActive ? 'var(--primary)' : 'var(--muted)',
+                      borderColor: isActive ? 'var(--primary)' : 'transparent'
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`flex-1 aspect-square rounded-sm cursor-pointer border shadow-sm ${currentStep === colIndex ? 'ring-2 ring-ring ring-offset-1 ring-offset-card z-10' : 'z-0'}`}
                   />
                 ))}
               </div>
@@ -231,7 +237,9 @@ export default function RhythmMode() {
           ))}
         </div>
 
-        <button 
+        <motion.button 
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={togglePlay}
           className={`mt-2 flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium transition-all shadow-sm w-full ${
             isPlaying 
@@ -240,7 +248,7 @@ export default function RhythmMode() {
           }`}
         >
           {isPlaying ? <><Square size={20} /> 停止播放</> : <><Play size={20} /> 播放节奏</>}
-        </button>
+        </motion.button>
       </div>
       
       <div className="flex flex-col gap-4">
@@ -251,10 +259,14 @@ export default function RhythmMode() {
           className="h-48 bg-input border border-border rounded-xl p-6 font-mono text-xl text-foreground focus:ring-2 focus:ring-ring focus:outline-none resize-none break-all transition-all shadow-sm"
           placeholder="输入一个数字..."
         />
-        <div className="text-sm text-muted-foreground border-l-4 border-primary pl-4 mt-4 py-1 space-y-2 bg-card p-4 rounded-r-xl shadow-sm transition-colors duration-300">
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-sm text-muted-foreground border-l-4 border-primary pl-4 mt-4 py-1 space-y-2 bg-card p-4 rounded-r-xl shadow-sm transition-colors duration-300"
+        >
           <p>4 个乐器轨道，每个轨道 8 个节拍，总共 32 个状态，可以被压缩成一个 <strong>32 位整数</strong>。</p>
           <p>尝试输入一个最大为 <code className="bg-muted px-1.5 py-0.5 rounded text-foreground">4294967295</code> 的数字，听听它蕴含的节奏。</p>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

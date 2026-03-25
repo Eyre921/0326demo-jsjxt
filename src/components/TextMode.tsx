@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { textToBigInt, bigIntToText } from '../utils';
+import { motion } from 'motion/react';
 
 export default function TextMode() {
   const [text, setText] = useState('我爱湖南大学！');
@@ -28,7 +29,12 @@ export default function TextMode() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full max-w-6xl mx-auto">
-      <div className="flex flex-col gap-3">
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4 }}
+        className="flex flex-col gap-3"
+      >
         <label className="text-sm font-medium text-muted-foreground">文本输入</label>
         <textarea 
           value={text}
@@ -36,8 +42,13 @@ export default function TextMode() {
           className="flex-1 min-h-[300px] bg-input border border-border rounded-xl p-6 font-sans text-2xl text-foreground focus:ring-2 focus:ring-ring focus:outline-none resize-none transition-all shadow-sm"
           placeholder="输入任何内容..."
         />
-      </div>
-      <div className="flex flex-col gap-3">
+      </motion.div>
+      <motion.div 
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+        className="flex flex-col gap-3"
+      >
         <label className="text-sm font-medium text-muted-foreground">数字表示 (十进制)</label>
         <textarea 
           value={numberStr}
@@ -45,7 +56,7 @@ export default function TextMode() {
           className="flex-1 min-h-[300px] bg-input border border-border rounded-xl p-6 font-mono text-lg text-foreground focus:ring-2 focus:ring-ring focus:outline-none resize-none break-all transition-all shadow-sm"
           placeholder="输入一个大数字..."
         />
-      </div>
+      </motion.div>
     </div>
   );
 }
