@@ -61,21 +61,21 @@ export default function SoundMode() {
   };
 
   return (
-    <div className="flex flex-col gap-8 h-full max-w-4xl">
-      <div className="flex flex-col gap-4">
-        <label className="font-mono text-[#00FF00] uppercase text-sm tracking-widest">Numeric Sequence</label>
+    <div className="flex flex-col gap-8 h-full max-w-4xl mx-auto">
+      <div className="flex flex-col gap-3">
+        <label className="text-sm font-medium text-muted-foreground">数字序列</label>
         <div className="relative">
           <textarea 
             value={numberStr}
             onChange={(e) => setNumberStr(e.target.value)}
-            className="w-full h-64 bg-transparent border border-white/20 p-6 font-mono text-2xl focus:border-[#00FF00] focus:outline-none resize-none break-all transition-colors"
-            placeholder="Enter a number..."
+            className="w-full h-64 bg-input border border-border rounded-xl p-6 font-mono text-xl text-foreground focus:ring-2 focus:ring-ring focus:outline-none resize-none break-all transition-all shadow-sm"
+            placeholder="输入一串数字..."
             disabled={isPlaying}
           />
           {isPlaying && currentDigitIndex !== null && (
-            <div className="absolute top-0 left-0 w-full h-full p-6 pointer-events-none font-mono text-2xl break-all">
+            <div className="absolute top-0 left-0 w-full h-full p-6 pointer-events-none font-mono text-xl break-all">
               <span className="text-transparent">{numberStr.substring(0, currentDigitIndex)}</span>
-              <span className="bg-[#00FF00] text-black">{numberStr[currentDigitIndex]}</span>
+              <span className="bg-primary text-primary-foreground rounded-sm px-[1px]">{numberStr[currentDigitIndex]}</span>
               <span className="text-transparent">{numberStr.substring(currentDigitIndex + 1)}</span>
             </div>
           )}
@@ -85,15 +85,19 @@ export default function SoundMode() {
       <div className="flex gap-4">
         <button 
           onClick={isPlaying ? stopSound : playSound}
-          className={`flex items-center gap-3 px-8 py-4 font-mono uppercase text-xl border transition-all ${isPlaying ? 'bg-red-500 text-white border-red-500 hover:bg-red-600' : 'bg-[#00FF00] text-black border-[#00FF00] hover:bg-transparent hover:text-[#00FF00]'}`}
+          className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all shadow-sm ${
+            isPlaying 
+              ? 'bg-foreground text-background hover:bg-foreground/90' 
+              : 'bg-primary text-primary-foreground hover:bg-primary/90'
+          }`}
         >
-          {isPlaying ? <><Square size={24} /> Stop</> : <><Play size={24} /> Play as Sound</>}
+          {isPlaying ? <><Square size={20} /> 停止</> : <><Play size={20} /> 播放声音</>}
         </button>
       </div>
       
-      <div className="font-mono text-sm text-white/60 border-l-2 border-[#00FF00] pl-4 space-y-2">
-        <p>Every digit (0-9) is mapped to a specific frequency in a pentatonic scale.</p>
-        <p>A number is not just a value; it can be a melody.</p>
+      <div className="text-sm text-muted-foreground border-l-4 border-primary pl-4 py-1 space-y-2 bg-card p-4 rounded-r-xl shadow-sm transition-colors duration-300">
+        <p>每个数字 (0-9) 都映射到五声音阶中的特定频率。</p>
+        <p>数字不仅仅是一个数学值；它也可以是一段旋律，一种声音的表达。</p>
       </div>
     </div>
   )

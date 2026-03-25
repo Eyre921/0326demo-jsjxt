@@ -36,35 +36,39 @@ export default function ImageMode() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 h-full items-start">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 h-full items-start max-w-6xl mx-auto">
       <div className="flex flex-col gap-4">
-        <label className="font-mono text-[#00FF00] uppercase text-sm tracking-widest">8x8 Pixel Grid (64-bit)</label>
-        <div className="grid grid-cols-8 gap-1 w-fit border border-white/20 p-2 bg-white/5">
+        <label className="text-sm font-medium text-muted-foreground">8x8 像素网格 (64位)</label>
+        <div className="grid grid-cols-8 gap-1 w-fit border border-border p-2 bg-card rounded-xl shadow-sm transition-colors duration-300">
           {grid.map((isActive, i) => (
             <div 
               key={i} 
               onClick={() => togglePixel(i)}
-              className={`w-10 h-10 sm:w-12 sm:h-12 cursor-pointer transition-colors duration-75 ${isActive ? 'bg-[#00FF00] shadow-[0_0_10px_#00FF00]' : 'bg-[#1a1a1a] hover:bg-white/20'}`}
+              className={`w-10 h-10 sm:w-12 sm:h-12 cursor-pointer rounded-sm transition-colors duration-200 ${
+                isActive 
+                  ? 'bg-primary shadow-sm' 
+                  : 'bg-muted hover:bg-accent'
+              }`}
             />
           ))}
         </div>
         <button 
           onClick={() => setGrid(Array(64).fill(false))}
-          className="mt-4 px-6 py-3 border border-white/20 font-mono text-sm hover:bg-white/10 hover:border-white/50 w-fit transition-all uppercase tracking-widest"
+          className="mt-4 px-6 py-2.5 bg-secondary text-secondary-foreground hover:bg-accent rounded-lg text-sm font-medium transition-colors w-fit shadow-sm"
         >
-          Clear Grid
+          清空网格
         </button>
       </div>
       <div className="flex flex-col gap-4">
-         <label className="font-mono text-[#00FF00] uppercase text-sm tracking-widest">Numeric Representation (Base 10)</label>
+         <label className="text-sm font-medium text-muted-foreground">数字表示 (十进制)</label>
          <textarea 
           value={numberStr}
           onChange={(e) => handleNumberChange(e.target.value)}
-          className="h-48 bg-transparent border border-white/20 p-6 font-mono text-2xl focus:border-[#00FF00] focus:outline-none resize-none break-all transition-colors"
+          className="h-48 bg-input border border-border rounded-xl p-6 font-mono text-xl text-foreground focus:ring-2 focus:ring-ring focus:outline-none resize-none break-all transition-all shadow-sm"
         />
-        <div className="font-mono text-sm text-white/60 border-l-2 border-[#00FF00] pl-4 mt-4 space-y-2">
-          <p>Every 8x8 black-and-white image is just a 64-bit integer.</p>
-          <p>Try typing a random number up to <strong>18446744073709551615</strong>.</p>
+        <div className="text-sm text-muted-foreground border-l-4 border-primary pl-4 mt-4 py-1 space-y-2 bg-card p-4 rounded-r-xl shadow-sm transition-colors duration-300">
+          <p>每一个 8x8 的黑白图像，本质上都只是一个 <strong>64 位整数</strong>。</p>
+          <p>尝试输入一个最大为 <code className="bg-muted px-1.5 py-0.5 rounded text-foreground">18446744073709551615</code> 的随机数，看看它会生成什么图案。</p>
         </div>
       </div>
     </div>
